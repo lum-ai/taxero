@@ -50,6 +50,20 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(json)
   }
 
+  def getSynonyms(query: String) = Action {
+    val tokens = query.split(" ")
+    val synonyms = taxero.getRankedSynonyms(tokens, lemmatize)
+    val json = JsonUtils.mkJson(synonyms)
+    Ok(json)
+  }
+
+  def getHyponyms(query: String) = Action {
+    val tokens = query.split(" ")
+    val hyponyms = taxero.getRankedHyponyms(tokens, lemmatize)
+    val json = JsonUtils.mkJson(hyponyms)
+    Ok(json)
+  }
+
   def getCohyponyms(query: String) = Action {
     val tokens = query.split(" ")
     val cohyponyms = taxero.getRankedCohyponyms(tokens, lemmatize)
