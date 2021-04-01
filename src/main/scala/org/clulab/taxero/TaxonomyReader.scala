@@ -70,6 +70,27 @@ class TaxonomyReader(
     rankMatches(items, matches)
   }
 
+  def getRankedMeronyms(tokens: Seq[String], lemmatize: Boolean): Seq[ScoredMatch] = {
+    val items = if (lemmatize) convertToLemmas(tokens) else tokens
+    val extractors = mkMeronymExtractors(items, lemmatize)
+    val matches = getMatches(extractors)
+    rankMatches(items, matches)
+  }
+
+  def getRankedHolonyms(tokens: Seq[String], lemmatize: Boolean): Seq[ScoredMatch] = {
+    val items = if (lemmatize) convertToLemmas(tokens) else tokens
+    val extractors = mkHolonymExtractors(items, lemmatize)
+    val matches = getMatches(extractors)
+    rankMatches(items, matches)
+  }
+
+  def getRankedSynonyms(tokens: Seq[String], lemmatize: Boolean): Seq[ScoredMatch] = {
+    val items = if (lemmatize) convertToLemmas(tokens) else tokens
+    val extractors = mkSynonymExtractors(items, lemmatize)
+    val matches = getMatches(extractors)
+    rankMatches(items, matches)
+  }
+
   def getExpandedHypernyms(pattern: Seq[String], n: Int, lemmatize: Boolean): Seq[ScoredMatch] = {
     // start query set with the provided query
     val allQueries = mutable.HashSet(pattern)
@@ -193,6 +214,18 @@ class TaxonomyReader(
 
   def mkCohyponymExtractors(tokens: Seq[String], lemmatize: Boolean): Seq[Extractor] = {
     mkExtractorsFromFile(tokens, "cohyponym-rules.yml", lemmatize)
+  }
+
+  def mkMeronymExtractors(tokens: Seq[String], lemmatize: Boolean): Seq[Extractor] = {
+    mkExtractorsFromFile(tokens, "meronym-rules.yml", lemmatize)
+  }
+
+  def mkHolonymExtractors(tokens: Seq[String], lemmatize: Boolean): Seq[Extractor] = {
+    mkExtractorsFromFile(tokens, "holonym-rules.yml", lemmatize)
+  }
+
+  def mkSynonymExtractors(tokens: Seq[String], lemmatize: Boolean): Seq[Extractor] = {
+    mkExtractorsFromFile(tokens, "synonym-rules.yml", lemmatize)
   }
 
   /** gets the contents of a rule file, as well as a tokenized query
