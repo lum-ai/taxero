@@ -57,10 +57,17 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(json)
   }
 
-  def getHyponyms(query: String) = Action {
+  def getMeronyms(query: String) = Action {
     val tokens = query.split(" ")
-    val hyponyms = taxero.getRankedHyponyms(tokens, lemmatize)
-    val json = JsonUtils.mkJson(hyponyms)
+    val meronyms = taxero.getRankedMeronyms(tokens, lemmatize)
+    val json = JsonUtils.mkJson(meronyms)
+    Ok(json)
+  }
+
+  def getHolonyms(query: String) = Action {
+    val tokens = query.split(" ")
+    val holonyms = taxero.getRankedHolonyms(tokens, lemmatize)
+    val json = JsonUtils.mkJson(holonyms)
     Ok(json)
   }
 

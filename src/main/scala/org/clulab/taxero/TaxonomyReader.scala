@@ -204,6 +204,7 @@ class TaxonomyReader(
       .mkString(" ")
   }
 
+  // TODO: consolidate these into one function, or just use mkExtractorsFromFile directly?
   def mkHypernymExtractors(tokens: Seq[String], lemmatize: Boolean): Seq[Extractor] = {
     mkExtractorsFromFile(tokens, "hypernym-rules.yml", lemmatize)
   }

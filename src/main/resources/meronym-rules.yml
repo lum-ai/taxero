@@ -1,9 +1,79 @@
-#vars:
-#  result: "(?<result> [tag=/J.*/]{,3} [tag=/N.*/]+ (of [tag=DT]? [tag=/J.*/]{,3} [tag=/N.*/]+)?)"
-#  skipquantifier: "/(most|less|more|few|any|much|many|lots?|little|some|same|several|numerous|plenty|amounts?|major|minor|majority|number|multiple|range|variet(y|ies)|others?|additional|next|basic|whole|of|such|all|essential|necessary|specific|special|particular|certain|importan(t|ce)|significant|main|extreme|different|various|unusual|usual|common|general|familiar|small(er|est)?|big(ger|gest)?|large(r|st)?|old(er|est)?|young(er|est)?|new(er|est)?|own|event|types?|kinds?|examples?|sorts?|class(es)?|parts?|pieces?|members?|aspects?|components?|sets?|an?|the|wide|only)/{,5}"
-#
-#rules:
-#  - name: hyper-1
+vars:
+  result: "(?<result> [tag=/J.*/]{,3} [tag=/N.*/]+ (of [tag=DT]? [tag=/J.*/]{,3} [tag=/N.*/]+)?)"
+  skipquantifier: "/(most|less|more|few|any|much|many|lots?|little|some|same|several|numerous|plenty|amounts?|major|minor|majority|number|multiple|range|variet(y|ies)|others?|additional|next|basic|whole|of|such|all|essential|necessary|specific|special|particular|certain|importan(t|ce)|significant|main|extreme|different|various|unusual|usual|common|general|familiar|small(er|est)?|big(ger|gest)?|large(r|st)?|old(er|est)?|young(er|est)?|new(er|est)?|own|event|types?|kinds?|examples?|sorts?|class(es)?|parts?|pieces?|members?|aspects?|components?|sets?|an?|the|wide|only)/{,5}"
+
+rules:
+  - name: mero-1
+    type: basic
+    example: "PART is a (member|part) of WHOLE"
+    pattern: |
+      ${query}
+      <nsubj
+      [lemma=/(member|part|component|section|department|subdivision|region)/]
+      >nmod_of
+      ${skipquantifier}
+      ${result}
+
+  - name: mero-2
+    type: basic
+    example: "WHOLE is made of PART"
+    pattern: |
+      ${query}
+      </nsubj(pass)?/
+      made
+      >nmod_of
+      ${skipquantifier}
+      ${result}
+
+  - name: mero-3
+    type: basic
+    example: "WHOLE consists of PART"
+    pattern: |
+      ${query}
+      <nsubj
+      [lemma=consist]
+      >nmod_of
+      ${skipquantifier}
+      ${result}
+
+#  - name: mero-4
 #    type: basic
+#    example: "WHOLE's PART"
+#    # Berland & Charniak (1999)
 #    pattern: |
 #      ${query}
+#      "'s"
+#      ${skipquantifier}
+#      ${result}
+
+#  - name: mero-5
+#    type: basic
+#    example: "PART of (the|a) WHOLE"
+#    # Berland & Charniak (1999)
+#    pattern: |
+#      ${result}
+#      <nmod_of
+#      ${skipquantifier}
+#      ${query}
+
+  - name: mero-6
+    type: basic
+    example: "WHOLE has four PART"
+    # Berland & Charniak (1999)
+    pattern: |
+      ${query}
+      <nsubj
+      (have|has)
+      >dobj
+      ${skipquantifier}
+      ${result}
+
+  - name: mero-7
+    type: basic
+    example: "WHOLE comprises PART"
+    pattern: |
+      ${query}
+      [lemma=comprise]
+      ${skipquantifier}
+      ${result}
+

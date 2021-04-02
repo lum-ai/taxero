@@ -10,6 +10,7 @@ GET     /hypernyms                  controllers.HomeController.getHypernyms(quer
 GET     /hyponyms                   controllers.HomeController.getHyponyms(query: String)
 GET     /synonyms                   controllers.HomeController.getSynonyms(query: String)
 GET     /meronyms                   controllers.HomeController.getMeronyms(query: String)
+GET     /holonyms                   controllers.HomeController.getHolonyms(query: String)
 GET     /cohyponyms                 controllers.HomeController.getCohyponyms(query: String)
 GET     /expandedHypernyms          controllers.HomeController.getExpandedHypernyms(query: String, n: Int = 5)
 GET     /customRules                controllers.HomeController.getCustomRuleResults(query: String, rules: String)
